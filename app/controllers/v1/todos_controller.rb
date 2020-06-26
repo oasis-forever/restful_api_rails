@@ -3,7 +3,7 @@ class V1::TodosController < ApplicationController
 
   # GET /todos
   def index
-    @todos = current_user.todos
+    @todos = current_user.todos.paginate(page: params[:page], per_page: 20)
     json_response(@todos)
   end
 
