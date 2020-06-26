@@ -4,7 +4,7 @@ RSpec.describe 'Todos API', type: :request do
   # add todos owner
   let(:user) { create(:user) }
   # initialize test data
-  let!(:todos) { create_list(:todo, 10, created_by: user.id) }
+  let!(:todos) { create_list(:todo, 10, user_id: user.id) }
   let(:todo_id) { todos.first.id }
   # authorize request
   let(:headers) { valid_headers }
@@ -61,7 +61,7 @@ RSpec.describe 'Todos API', type: :request do
   describe 'POST /todos' do
     # valid payload
     let(:valid_attributes) do
-      { title: 'Learn Elm', created_by: user.id.to_s }.to_json
+      { title: 'Learn Elm', user: user.id.to_s }.to_json
     end
 
     context 'when the request is valid' do
