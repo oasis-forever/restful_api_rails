@@ -37,4 +37,5 @@ ActiveRecord::Schema.define(version: 2020_05_08_011341) do
   end
 
   add_foreign_key "items", "todos"
+  add_foreign_key "todos", "users"
 end
