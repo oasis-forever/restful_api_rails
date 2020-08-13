@@ -1,8 +1,8 @@
 ## Environment
 
+* WSL2(Ubuntu 20.04.1 LTS)
 * Rails 6.0.3.2
 * ruby 2.7.1p83 (2020-03-31 revision a0c7c23c9c) [x86_64-linux]
-* WSL(Ubuntu 18.04.4 LTS)
 
 ## 2. Reference
 
