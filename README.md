@@ -1,9 +1,9 @@
 ## 1. Environment
 
 * WSL(Ubuntu 20.04.1 LTS (GNU/Linux 4.19.128-microsoft-standard x86_64))
-* rbenv 1.1.2-35-g0843745
-* ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_65-darwin19]
+* ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-linux]
 * Rails 6.0.3.4
+* Docker version 19.03.13, build 4484c46d9d
 
 ## 2. Reference
 
@@ -11,7 +11,55 @@
 2. [Build a RESTful JSON API With Rails 5 - Part 2](https://scotch.io/tutorials/build-a-restful-json-api-with-rails-5-part-two)
 3. [Build a RESTful JSON API With Rails 5 - Part 3](https://scotch.io/tutorials/build-a-restful-json-api-with-rails-5-part-three)
 
-## 3. Routing
+## 3. Clone the repository
+
+```bash
+$ git clone git@github.com:oasis-forever/restful_api_rails.git
+```
+
+## 4. Docker
+
+### 4-1. Build constainers
+
+* Build container of `db` and `app`
+
+```bash
+$ docker-compose up -d
+```
+
+### 4-2. MySQL
+
+```bash
+$ docker-compose exec db mysql -u root -p
+password:
+```
+
+```sql
+/* Switch database */
+mysql> USE mysql;
+/* Check user and hostname before making a change */
+mysql> SELECT user, host FROM user WHERE user = 'root';
+/* Allow any host to access to MySQL server */
+mysql> UPDATE user SET host = '%' WHERE user = 'root';
+/* Check user and hostname after making a change */
+mysql> SELECT user, host FROM user WHERE user = 'root';
+/* Exit */
+mysql> exit;
+```
+
+### 4-3. Rails
+
+#### 4-3-1. Create database
+
+```bash
+$ docker-compose exec app bin/rails db:create
+```
+
+#### 4-3-2. Access `localhost:3000`
+
+![Yay! You're on Ruby on Rails](https://github.com/oasis-forever/restful_api_rails/blob/master/public/yay!-you're-on-rails!.png)
+
+## 5. Routing
 
 ```bash
                                Prefix Verb   URI Pattern                                                                              Controller#Action
@@ -50,11 +98,11 @@ rails_conductor_inbound_email_reroute POST   /rails/conductor/action_mailbox/:in
                  rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
 ```
 
-## 4. How to execute in local development environment
+## 6. How to execute in local development environment
 
 \* Install `httpie` package in advance for convenience refering to [jakubroztocil/httpie](https://github.com/jakubroztocil/httpie)
 
-### 4-1. User
+### 6-1. User
 
 * create
 
@@ -80,7 +128,7 @@ X-XSS-Protection: 1; mode=block
 }
 ```
 
-### 4-2 Todo
+### 6-2 Todo
 
 * create
 
@@ -260,7 +308,7 @@ X-XSS-Protection: 1; mode=block
 }
 ```
 
-## 4-3. Items
+## 6-3. Items
 
 * create
 
@@ -431,7 +479,7 @@ X-XSS-Protection: 1; mode=block
 }
 ```
 
-## 4-4. Pagination
+## 6-4. Pagination
 
 * Reset DB and creates sample data
 

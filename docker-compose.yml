@@ -1,0 +1,40 @@
+version: "3"
+services:
+  db:
+    image: mysql/mysql-server:8.0
+    command: ["--bind-address=0.0.0.0"]
+    command: [--default-authentication-plugin=mysql_native_password]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_DEV}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    environment:
+      MYSQL_USERNAME: ${MYSQL_USERNAME_DEV}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_DEV}
+      MYSQL_HOST: ${MYSQL_HOST_DEV}
+    ports:
+      - "3000:3000"
+    command: sh -c "bundle install && yarn install && rm -f tmp/pids/server.pid && bin/rails s -b 0.0.0.0 -p 3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - bundle:/app/vendor/bundle
+      - node_modules:/app/node_modules
+
+volumes:
+  mysql-data:
+    driver: local
+  bundle:
+    driver: local
+  node_modules:
+    driver: local

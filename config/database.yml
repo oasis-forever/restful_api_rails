@@ -1,23 +1,19 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install mysql
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'mysql'
-#
 default: &default
   adapter: mysql2
-  encoding: utf8
-  username: root
-  password:
-  host: localhost
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_bin
+  pool: 5
+  timeout: 5000
+  username: <%= ENV["MYSQL_USERNAME"] %>
+  password: <%= ENV["MYSQL_PASSWORD"] %>
+  host: <%= ENV["MYSQL_HOST"] %>
+  port: <%= ENV["MYSQL_PORT"] %>
 
 development:
   <<: *default
-  database: restful_api_rails_development
+  database: rails_experiment_development
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
   <<: *default
   database: restful_api_rails_test
