@@ -1,9 +1,9 @@
 ## 1. Environment
 
 * WSL(Ubuntu 20.04.1 LTS (GNU/Linux 4.19.128-microsoft-standard x86_64))
-* ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-linux]
-* Rails 6.0.3.4
-* Docker version 19.03.13, build 4484c46d9d
+* ruby 3.0.0p0 (2020-12-25 revision 95aff21468) [x86_64-linux]
+* Rails 6.1.3
+* Docker version 20.10.2, build 2291f61
 
 ## 2. Reference
 
