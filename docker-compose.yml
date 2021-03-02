@@ -14,7 +14,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile
     environment:
       MYSQL_USERNAME: ${MYSQL_USERNAME_DEV}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_DEV}
