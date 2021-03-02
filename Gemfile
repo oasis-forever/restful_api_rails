@@ -40,8 +40,6 @@ gem 'dotenv-rails', '~> 2.7.6'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 11.1.3', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec-rails', '~> 4.0.2'
-  gem 'faker', '~> 2.16.0'
 end
 
 group :development do
@@ -55,6 +53,8 @@ end
 group :test do
   # 'factory_bot_rails' cames not to behave right in 5.0 or more
   gem 'factory_bot_rails', '~> 6.1.0'
+  gem 'rspec-rails', '~> 4.0.2'
+  gem 'faker', '~> 2.16.0'
   gem 'shoulda-matchers', '~> 4.5.1'
   gem 'database_cleaner', '~> 2.0.1'
 end
