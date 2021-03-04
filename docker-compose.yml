@@ -5,7 +5,7 @@ services:
     command: ["--bind-address=0.0.0.0"]
     command: [--default-authentication-plugin=mysql_native_password]
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_DEV}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -16,9 +16,9 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      MYSQL_USERNAME: ${MYSQL_USERNAME_DEV}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD_DEV}
-      MYSQL_HOST: ${MYSQL_HOST_DEV}
+      MYSQL_USERNAME: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_HOST: ${DB_HOST}
     ports:
       - "3000:3000"
     command: sh -c "bundle install && yarn install && rm -f tmp/pids/server.pid && bin/rails s -b 0.0.0.0 -p 3000"

@@ -5,8 +5,6 @@ ruby '3.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.1.3'
-# Use sqlite3 as the database for Active Record
-gem 'mysql2', '~> 0.5.3'
 # Use Puma as the app server
 gem 'puma', '~> 5.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -38,6 +36,9 @@ gem 'will_paginate', '~> 3.3.0'
 gem 'dotenv-rails', '~> 2.7.6'
 
 group :development, :test do
+  # Use MySQL as the database for Active Record
+  gem 'mysql2', '~> 0.5.3'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 11.1.3', platforms: [:mri, :mingw, :x64_mingw]
 end
@@ -57,6 +58,10 @@ group :test do
   gem 'faker', '~> 2.16.0'
   gem 'shoulda-matchers', '~> 4.5.1'
   gem 'database_cleaner', '~> 2.0.1'
+end
+
+group :production do
+  gem 'pg', '~> 1.2.3'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

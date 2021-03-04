@@ -5,10 +5,10 @@ default: &default
   collation: utf8mb4_bin
   pool: 5
   timeout: 5000
-  username: <%= ENV["MYSQL_USERNAME"] %>
-  password: <%= ENV["MYSQL_PASSWORD"] %>
-  host: <%= ENV["MYSQL_HOST"] %>
-  port: <%= ENV["MYSQL_PORT"] %>
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  host: <%= ENV["DB_HOST"] %>
+  port: <%= ENV["DB_PORT"] %>
 
 development:
   <<: *default
@@ -20,4 +20,7 @@ test:
 
 production:
   <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: restful_api_rails_production
