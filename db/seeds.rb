@@ -6,10 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create!(name: "Sample User", email: "sample@example.com", password: ENV['USER_PASSWORD'])
+User.create!(name: "Sample User", email: "sample@example.com", password: "hogehogefoobar")
 user = User.first
 
 100.times do
-  todo = Todo.create(title: Faker::Lorem.word, user_id: user.id)
-  todo.items.create(name: Faker::Lorem.word, done: false)
+  todo = Todo.create!(title: Faker::Lorem.word, user_id: user.id)
+  todo.items.create!(name: Faker::Lorem.word, done: false)
 end
