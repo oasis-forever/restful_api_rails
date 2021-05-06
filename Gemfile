@@ -35,6 +35,9 @@ gem 'will_paginate', '~> 3.3.0'
 # environmental variables
 gem 'dotenv-rails', '~> 2.7.6'
 
+# Patch actionpack
+gem "actionpack", ">= 6.1.3.2"
+
 group :development, :test do
   # Use MySQL as the database for Active Record
   gem 'mysql2', '~> 0.5.3'
