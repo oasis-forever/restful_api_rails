@@ -4,7 +4,7 @@ RSpec.describe 'Items API' do
   # Initialize the test data
   let(:user) { create(:user) }
   let!(:todo) { create(:todo, user_id: user.id) }
-  let!(:items) { create_list(:item, 20, todo_id: todo.id) }
+  let!(:items) { create_list(:item, 10, todo_id: todo.id) }
   let(:todo_id) { todo.id }
   let(:id) { items.first.id }
   let(:headers) { valid_headers }
@@ -16,24 +16,25 @@ RSpec.describe 'Items API' do
     end
 
     context 'when todo exists' do
-      it 'returns status code 200' do
-        expect(response).to have_http_status(200)
+      it 'returns all items' do
+        expect(json).not_to be_empty
+        expect(json.size).to eq(10)
       end
 
-      it 'returns all todo items' do
-        expect(json.size).to eq(20)
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
       end
     end
 
     context 'when todo does not exist' do
-      let(:todo_id) { 0 }
-
-      it 'returns status code 404' do
-        expect(response).to have_http_status(404)
-      end
+      let!(:todo_id) { 0 }
 
       it 'returns a not found message' do
         expect(response.body).to match(/Couldn't find Todo/)
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
       end
     end
   end
@@ -45,24 +46,25 @@ RSpec.describe 'Items API' do
     end
 
     context 'when todo item exists' do
-      it 'returns status code 200' do
-        expect(response).to have_http_status(200)
+      it 'returns the item' do
+        expect(json).not_to be_empty
+        expect(json['id']).to eq(id)
       end
 
-      it 'returns the item' do
-        expect(json['id']).to eq(id)
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
       end
     end
 
     context 'when todo item does not exist' do
-      let(:id) { 0 }
-
-      it 'returns status code 404' do
-        expect(response).to have_http_status(404)
-      end
+      let!(:id) { 0 }
 
       it 'returns a not found message' do
         expect(response.body).to match(/Couldn't find Item/)
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
       end
     end
   end
@@ -71,9 +73,13 @@ RSpec.describe 'Items API' do
   describe 'POST /todos/:todo_id/items' do
     let(:valid_attributes) { { name: 'Visit Narnia', done: false }.to_json }
 
-    context 'when request attributes are valid' do
+    context 'when the request attributes are valid' do
       before do
         post "/todos/#{todo_id}/items", params: valid_attributes, headers: headers
+      end
+
+      it 'creates a todo item' do
+        expect(json['name']).to eq('Visit Narnia')
       end
 
       it 'returns status code 201' do
@@ -81,17 +87,17 @@ RSpec.describe 'Items API' do
       end
     end
 
-    context 'when an invalid request' do
+    context 'when a request attribute is invalid' do
       before do
         post "/todos/#{todo_id}/items", params: {}, headers: headers
       end
 
-      it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+      it 'returns a validation failure message' do
+        expect(response.body).to match(/Validation failed: Name can't be blank/)
       end
 
-      it 'returns a failure message' do
-        expect(response.body).to match(/Validation failed: Name can't be blank/)
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
       end
     end
   end
@@ -104,32 +110,32 @@ RSpec.describe 'Items API' do
       put "/todos/#{todo_id}/items/#{id}", params: valid_attributes, headers: headers
     end
 
-    context 'when item exists' do
+    context 'when the item exists' do
+      it 'updates the todo item' do
+        updated_item = Item.find(id)
+        expect(updated_item.name).to eq('Mozart')
+      end
+
       it 'returns status code 204' do
         expect(response).to have_http_status(204)
       end
-
-      it 'updates the item' do
-        updated_item = Item.find(id)
-        expect(updated_item.name).to match(/Mozart/)
-      end
     end
 
-    context 'when the item does not exist' do
+    context 'when the todo item does not exist' do
       let(:id) { 0 }
-
-      it 'returns status code 404' do
-        expect(response).to have_http_status(404)
-      end
 
       it 'returns a not found message' do
         expect(response.body).to match(/Couldn't find Item/)
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
       end
     end
   end
 
   # Test suite for DELETE /todos/:id
-  describe 'DELETE /todos/:id' do
+  describe 'DELETE /todos/:todo_id/items/:id' do
     before do
       delete "/todos/#{todo_id}/items/#{id}", params: {}, headers: headers
     end
