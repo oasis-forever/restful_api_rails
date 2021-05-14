@@ -29,7 +29,7 @@ module ControllerSpecHelper
   def invalid_headers(version = nil)
     if version
       {
-        'Authorization' => token_generator(user.id),
+        'Authorization' => nil,
         'Content-Type' => 'application/json',
         'Accept' => "application/vnd.todos.#{version}+json"
       }
